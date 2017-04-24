@@ -1,25 +1,11 @@
 package com.sdi.client;
 
-import java.util.List;
-import java.util.Map;
 
-
-
-
-
-
-
-
-
-
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import uo.sdi.business.AdminService;
-import uo.sdi.business.exception.BusinessException;
-import uo.sdi.dto.UserData;
+import uo.sdi.ws.AdminService;
+import uo.sdi.ws.BusinessException_Exception;
+import uo.sdi.ws.EjbAdminServiceService;
 import alb.util.console.Console;
 import alb.util.menu.Action;
 
@@ -30,21 +16,14 @@ import alb.util.menu.Action;
  *
  */
 public class EliminarUsersAction implements Action {
-
-	private static final String ADMIN_SERVICE_JNDI_KEY =
-			"sdi2-16/"
-			+ "sdi2-16EJB/"
-			+ "EjbAdminService!"
-			+ "uo.sdi.business.impl.admin.RemoteAdminService";
 	
     @Override
-    public void execute() throws BusinessException, NamingException {
+    public void execute() throws NamingException, BusinessException_Exception {
 
    	 Long idUser = Console.readLong("Id de user a eliminar:");
 
-	Context ctx = new InitialContext();
 
-	AdminService service = (AdminService) ctx.lookup(ADMIN_SERVICE_JNDI_KEY);
+ 	AdminService service = new EjbAdminServiceService().getAdminServicePort();
 
 	service.deepDeleteUser(idUser);
 	
